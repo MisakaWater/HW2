@@ -50,7 +50,7 @@ namespace HW2.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "忘记密码？")]
+            [Display(Name = "记住密码")]
             public bool RememberMe { get; set; }
         }
 
