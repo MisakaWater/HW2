@@ -21,13 +21,11 @@ namespace HW2.Controllers
             _context = context;
         }
 
-        // GET: Homework
         public async Task<IActionResult> Index()
         {
             return View(await _context.Homeworks.ToListAsync());
         }
 
-        // GET: Homework/Details/5
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -44,15 +42,11 @@ namespace HW2.Controllers
 
             return View(homework);
         }
-        // GET: Homework/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Homework/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
@@ -66,7 +60,6 @@ namespace HW2.Controllers
             return View(homework);
         }
 
-        // GET: Homework/Edit/5
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -82,9 +75,6 @@ namespace HW2.Controllers
             return View(homework);
         }
 
-        // POST: Homework/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
@@ -117,7 +107,6 @@ namespace HW2.Controllers
             return View(homework);
         }
 
-        // GET: Homework/Delete/5
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -135,7 +124,6 @@ namespace HW2.Controllers
             return View(homework);
         }
 
-        // POST: Homework/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
