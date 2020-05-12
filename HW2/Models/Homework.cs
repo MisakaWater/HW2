@@ -13,8 +13,10 @@ namespace HW2.Models
         public string WorkTitle { get; set; }
         [Display(Name = "作业内容")]
         public string WorkContent { get; set; }
-        [Display(Name ="作业答案")]
-        public string AnswerPath { get; set; }
+        [Display(Name = "作业答案文本")]
+        public string AnswerText { get; set; }
+        [Display(Name ="作业答案文件")]
+        public string AnswerFile { get; set; }
         [Display(Name ="发布时间")]
         public DateTime ReleaseDate { get; set; }
         [Display(Name="结束时间")]

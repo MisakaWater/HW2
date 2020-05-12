@@ -49,7 +49,7 @@ namespace HW2.Controllers
         [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
+        public async Task<IActionResult> Create([Bind("Id,Course,WorkTitle,WorkContent,AnswerText,AnswerFile,ReleaseDate,EndDate")] Homework homework)
         {
             if (ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace HW2.Controllers
         [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Course,WorkTitle,WorkContent,AnswerText,AnswerFile,ReleaseDate,EndDate")] Homework homework)
         {
             if (id != homework.Id)
             {
