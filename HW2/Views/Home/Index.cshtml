@@ -1,0 +1,57 @@
+﻿@model IEnumerable<HW2.Models.Homework>
+
+@{
+    ViewData["Title"] = "首页";
+}
+
+<h1>作业列表</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Course)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkContent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnswerPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkContent)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AnswerPath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
