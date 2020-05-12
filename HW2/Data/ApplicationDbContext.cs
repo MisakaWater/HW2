@@ -14,5 +14,6 @@ namespace HW2.Data
         {
         }
         public DbSet<Homework> Homeworks { get; set; }
+        public DbSet<UploadFile> UploadFiles { get; set; }
     }
 }

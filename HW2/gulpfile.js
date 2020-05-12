@@ -36,7 +36,13 @@ const libs = [
     { name: "popper", dist: "./node_modules/popper.js/dist/**/*.*" },
     { name: "bootstrap", dist: "./node_modules/bootstrap/dist/**/*.*" },
     {
-        name: "showdown", dist:"./node_modules/showdown/dist/**/*.*"
+        name: "showdown", dist: "./node_modules/showdown/dist/**/*.*"
+    },
+    {
+        name: "github-markdown-css", dist: "./node_modules/github-markdown-css/github-markdown.css"
+    },
+    {
+        name: "axios", dist:"./node_modules/axios/dist/*.*"
     }
 ];
 

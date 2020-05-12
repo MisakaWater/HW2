@@ -6,52 +6,98 @@
 
 <h1>作业列表</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Course)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WorkContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AnswerText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkContent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AnswerText)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-            </tr>
+
+
+
+
+
+<div class="accordion" id="HomeworkList">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        @Html.DisplayFor(modelItem => item.Course)：@Html.DisplayFor(modelItem => item.WorkTitle)
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#HomeworkList">
+                <div class="card-body">
+                    <textarea style="display:none" id="AnswerText" readonly asp-for="@item.AnswerText">
+
+                    </textarea>
+                    <div id="result">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts{
+    <script>
+        window.onload = function () {
+            console.log(1);
+            var converter = new showdown.Converter();
+            var ele = document.getElementById("AnswerText");
+            document.getElementById("result").innerHTML = converter.makeHtml(ele.value);
         }
-    </tbody>
-</table>
+    </script>
+}
+
+
+
+
+
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Course)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.WorkContent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AnswerText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkContent)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnswerText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@

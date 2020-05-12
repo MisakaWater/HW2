@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "admin-lte": "^3.0.4",
+    "axios": "^0.19.2",
+    "github-markdown-css": "^4.0.0",
     "showdown": "^1.9.1"
   }
 }

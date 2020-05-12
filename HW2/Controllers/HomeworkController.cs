@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using HW2.Data;
 using HW2.Models;
 using Microsoft.AspNetCore.Authorization;
+using HW2.ViewModels;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace HW2.Controllers
 {
@@ -15,10 +19,19 @@ namespace HW2.Controllers
     public class HomeworkController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public HomeworkController(ApplicationDbContext context)
+        private IWebHostEnvironment _env;
+        private string _dir;
+        private string _savePath;
+        public HomeworkController(ApplicationDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
+            _dir = _env.WebRootPath;
+            _savePath = Path.Combine(_dir,"upload");
+            if (!Directory.Exists(_savePath))
+            {
+                Directory.CreateDirectory(_savePath);
+            }
         }
 
         public async Task<IActionResult> Index()
@@ -49,10 +62,11 @@ namespace HW2.Controllers
         [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Course,WorkTitle,WorkContent,AnswerText,AnswerFile,ReleaseDate,EndDate")] Homework homework)
+        public async Task<IActionResult> Create(Homework homework)
         {
             if (ModelState.IsValid)
             {
+                homework.GUID = Guid.NewGuid() + "";
                 _context.Add(homework);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -77,7 +91,7 @@ namespace HW2.Controllers
         [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Course,WorkTitle,WorkContent,AnswerText,AnswerFile,ReleaseDate,EndDate")] Homework homework)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,GUID,Course,WorkTitle,WorkContent,AnswerText,AnswerFiles,ReleaseDate,EndDate")] Homework homework)
         {
             if (id != homework.Id)
             {
@@ -123,7 +137,7 @@ namespace HW2.Controllers
         [Authorize(Roles = "管理员,答案管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAnswer(long id, [Bind("Id,AnswerPath")] Homework homework)
+        public async Task<IActionResult> EditAnswer(long? id, [Bind("Id,AnswerText")] Homework homework, List<IFormFile> formFiles)
         {
             if (id != homework.Id)
             {
@@ -134,12 +148,47 @@ namespace HW2.Controllers
             {
                 try
                 {
-                    //var old = await _context.Homeworks.FindAsync(id);
-                    //old.AnswerPath = homework.AnswerPath;
 
-                    //_context.Update(old);
-                    _context.Attach(homework);
-                    _context.Entry(homework).Property(x => x.AnswerPath).IsModified = true;
+                    var hw = await _context.Homeworks.FindAsync(id);
+                    
+
+                    var exts = new List<string>()
+                    {
+                        ".pdf",
+                        ".jpg",
+                        ".png",
+                        ".py",
+                        ".sql"
+                    };
+                    foreach (var file in formFiles)
+                    {
+                        var fileExt = Path.GetExtension(file.FileName);
+                        if (!exts.Any(x => x.Contains(fileExt)))
+                        {
+                            break;
+                        }
+                        var guid = Guid.NewGuid()+ "";
+                        var fileName = guid+fileExt;
+                        var files = new UploadFile()
+                        {
+                            GUID = guid,
+                            Name = guid,
+                            Path = Path.Combine(_savePath, fileName),
+                            UploadDate = DateTime.Now,
+                        };
+                        using (var fileStream = new FileStream(
+                            Path.Combine(_savePath, fileName),
+                            FileMode.Create, FileAccess.Write))
+                        {
+                            file.CopyTo(fileStream);
+                        }
+                        hw.AnswerFiles.Add(files);
+                    }
+
+                    hw.AnswerText = homework.AnswerText;
+                    //_context.Attach(homework);
+                    //_context.Entry(homework).Property(x => x.AnswerText).IsModified = true;
+                    _context.Update(hw);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

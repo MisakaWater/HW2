@@ -6,14 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\Migrations\20200510114425_HomeViewModel_Init.cs" />
-    <Compile Remove="Data\Migrations\20200510114425_HomeViewModel_Init.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200510114652_HomeViewModel_Init.cs" />
-    <Compile Remove="Data\Migrations\20200510114652_HomeViewModel_Init.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200510114723_HomeWorkModel.cs" />
-    <Compile Remove="Data\Migrations\20200510114723_HomeWorkModel.Designer.cs" />
-    <Compile Remove="Data\Migrations\20200510115315_HomeWorkModel.cs" />
-    <Compile Remove="Data\Migrations\20200510115315_HomeWorkModel.Designer.cs" />
+    <Compile Remove="Data\Migrations1\20200510114425_HomeViewModel_Init.cs" />
+    <Compile Remove="Data\Migrations1\20200510114425_HomeViewModel_Init.Designer.cs" />
+    <Compile Remove="Data\Migrations1\20200510114652_HomeViewModel_Init.cs" />
+    <Compile Remove="Data\Migrations1\20200510114652_HomeViewModel_Init.Designer.cs" />
+    <Compile Remove="Data\Migrations1\20200510114723_HomeWorkModel.cs" />
+    <Compile Remove="Data\Migrations1\20200510114723_HomeWorkModel.Designer.cs" />
+    <Compile Remove="Data\Migrations1\20200510115315_HomeWorkModel.cs" />
+    <Compile Remove="Data\Migrations1\20200510115315_HomeWorkModel.Designer.cs" />
+    <Compile Remove="Data\Migrations1\20200513080356_init.cs" />
+    <Compile Remove="Data\Migrations1\20200513080356_init.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +31,10 @@
 
   <ItemGroup>
     <None Include=".github\workflows\dotnetcore.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\axios\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties package_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

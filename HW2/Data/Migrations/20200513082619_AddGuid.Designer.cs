@@ -4,14 +4,16 @@ using HW2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HW2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200513082619_AddGuid")]
+    partial class AddGuid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,9 +67,6 @@ namespace HW2.Data.Migrations
                     b.Property<string>("GUID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("HomeworkId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,8 +80,6 @@ namespace HW2.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HomeworkId");
 
                     b.ToTable("UploadFiles");
                 });
@@ -281,13 +278,6 @@ namespace HW2.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("HW2.Models.UploadFile", b =>
-                {
-                    b.HasOne("HW2.Models.Homework", null)
-                        .WithMany("AnswerFiles")
-                        .HasForeignKey("HomeworkId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

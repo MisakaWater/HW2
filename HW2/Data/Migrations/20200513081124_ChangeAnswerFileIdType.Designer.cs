@@ -4,14 +4,16 @@ using HW2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HW2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200513081124_ChangeAnswerFileIdType")]
+    partial class ChangeAnswerFileIdType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +28,9 @@ namespace HW2.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AnswerFileID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("AnswerText")
                         .HasColumnType("nvarchar(max)");
 
@@ -34,9 +39,6 @@ namespace HW2.Data.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("GUID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -62,12 +64,6 @@ namespace HW2.Data.Migrations
                     b.Property<string>("Describe")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("GUID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("HomeworkId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,8 +77,6 @@ namespace HW2.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HomeworkId");
 
                     b.ToTable("UploadFiles");
                 });
@@ -281,13 +275,6 @@ namespace HW2.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("HW2.Models.UploadFile", b =>
-                {
-                    b.HasOne("HW2.Models.Homework", null)
-                        .WithMany("AnswerFiles")
-                        .HasForeignKey("HomeworkId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

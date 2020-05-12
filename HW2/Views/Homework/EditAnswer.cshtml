@@ -1,46 +1,43 @@
 ﻿@model HW2.Models.Homework
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "编辑答案";
 }
-<script>
-    var countDownDate = new Date('@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")').getTime();
-
-    var x = setInterval(function () {
-        var now = new Date().getTime();
-        var distance = countDownDate - now;
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("timeleft").innerHTML = days + "天" + hours + "小时"
-            + minutes + "分钟" + seconds + "秒";
-
-        // If the count down is finished, write some text
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("timeleft").innerHTML = "已过期";
-        }
-    }, 1000);
-</script>
 <h1>编辑答案</h1>
-
-<h3>@Model.Course</h3>
-<h4>@Model.WorkTitle</h4>
-<h4>@Model.WorkContent</h4>
-<h4>发布时间:@Model.ReleaseDate</h4>
-<h4>结束时间:@Model.EndDate</h4>
-<h4>还剩余：<span id="timeleft"></span></h4>
+<div class="row">
+    <div class="col">
+        <h2>@Model.Course</h2>
+        <h3>@Model.WorkTitle</h3>
+        <h4>@Model.WorkContent</h4>
+    </div>
+    <div class="col">
+        <p>发布时间：@Model.ReleaseDate</p>
+        <p>结束时间：@Model.EndDate</p>
+        <p>还剩余：<span id="timeleft"></span></p>
+    </div>
+</div>
 <hr />
 <div>
     <div>
-        <form asp-action="EditAnswer">
+        <form asp-action="EditAnswer" enctype="multipart/form-data"
+              method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col form-group">
+                    <label asp-for="AnswerText" class="control-label"></label>
+                    <textarea oninput="auto_grow(this)" onkeyup="convert()" asp-for="AnswerText" class="form-control"
+                              style="resize: none;overflow: hidden;min-height: 50px;"></textarea>
+                    <span asp-validation-for="AnswerText" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label for="result" class="control-label">预览</label>
+                    <div id="result" class=""></div>
+                </div>
+            </div>
             <div class="form-group">
-                <label asp-for="AnswerPath" class="control-label"></label>
-                <textarea asp-for="AnswerPath" rows="8" class="form-control"></textarea>
-                <span asp-validation-for="AnswerPath" class="text-danger"></span>
+                <h4>上传文件</h4>
+                <input type="file" multiple id="formFiles" name="formFiles" />
             </div>
             <div class="form-group">
                 <input type="submit" value="保存" class="btn btn-primary" />
@@ -52,4 +49,56 @@
 <div>
     <a asp-action="Index">返回</a>
 </div>
+@section Scripts{
+    <script>
+        async function AJAXSubmit(oFormElement) {
+            var resultElement = oFormElement.elements.namedItem("result");
+            const formData = new FormData(oFormElement);
 
+            try {
+                const response = await fetch(oFormElement.action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    window.location.href = '/';
+                }
+
+                resultElement.value = 'Result: ' + response.status + ' ' +
+                    response.statusText;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        function convert() {
+            var text = document.getElementById("AnswerText").value;
+            var converter = new showdown.Converter();
+            var html = converter.makeHtml(text);
+            document.getElementById("result").innerHTML = html;
+        }
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+    </script>
+    <script>
+    var countDownDate = new Date('@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")').getTime();
+    var x = setInterval(function () {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("timeleft").innerHTML = days + "天" + hours + "小时"+ minutes + "分钟" + seconds + "秒";
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timeleft").innerHTML = "已过期";
+            document.getElementById("timeleft").style.color = "red";
+        }
+    }, 1000);
+    </script>
+}

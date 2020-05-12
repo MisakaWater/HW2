@@ -24,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.WorkContent)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AnswerPath)
+                @Html.DisplayNameFor(model => model.AnswerText)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReleaseDate)
@@ -38,51 +38,51 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Course)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkContent)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AnswerPath)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @if (User.IsInRole("作业管理")&&!User.IsInRole("管理员"))
-                    {
-                        <div>
-                            <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">查看</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
-                        </div>
-                    }
-                    @if (User.IsInRole("答案管理")&&!User.IsInRole("管理员"))
-                    {
-                        <div>
-                            <a asp-action="EditAnswer" asp-route-id="@item.Id">编辑答案</a>
-                        </div>
-                    }
-                    @if (User.IsInRole("管理员"))
-                    {
-                <div>
-                    <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
-                    <a asp-action="EditAnswer" asp-route-id="@item.Id">编辑答案</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">查看</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
-                </div>
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Course)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkContent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @if (User.IsInRole("作业管理") && !User.IsInRole("管理员"))
+                {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">查看</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
+                    </div>
+                }
+                @if (User.IsInRole("答案管理") && !User.IsInRole("管理员"))
+                {
+                    <div>
+                        <a asp-action="EditAnswer" asp-route-id="@item.Id">编辑答案</a>
+                    </div>
+                }
+                @if (User.IsInRole("管理员"))
+                {
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">编辑</a> |
+                        <a asp-action="EditAnswer" asp-route-id="@item.Id">编辑答案</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">查看</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">删除</a>
+                    </div>
+                }
+            </td>
+        </tr>
         }
     </tbody>
 </table>
