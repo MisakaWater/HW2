@@ -1,0 +1,55 @@
+﻿@model HW2.Models.Homework
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<script>
+    var countDownDate = new Date('@Model.EndDate.ToString("yyyy-MM-ddTHH:mm:ss")').getTime();
+
+    var x = setInterval(function () {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("timeleft").innerHTML = days + "天" + hours + "小时"
+            + minutes + "分钟" + seconds + "秒";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timeleft").innerHTML = "已过期";
+        }
+    }, 1000);
+</script>
+<h1>编辑答案</h1>
+
+<h3>@Model.Course</h3>
+<h4>@Model.WorkTitle</h4>
+<h4>@Model.WorkContent</h4>
+<h4>发布时间:@Model.ReleaseDate</h4>
+<h4>结束时间:@Model.EndDate</h4>
+<h4>还剩余：<span id="timeleft"></span></h4>
+<hr />
+<div>
+    <div>
+        <form asp-action="EditAnswer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AnswerPath" class="control-label"></label>
+                <textarea asp-for="AnswerPath" rows="8" class="form-control"></textarea>
+                <span asp-validation-for="AnswerPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="保存" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">返回</a>
+</div>
+

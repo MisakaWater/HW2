@@ -25,7 +25,7 @@ namespace HW2.Controllers
         {
             return View(await _context.Homeworks.ToListAsync());
         }
-
+        [Authorize(Roles = "管理员,作业管理")]
         public async Task<IActionResult> Details(long? id)
         {
             if (id == null)
@@ -46,7 +46,7 @@ namespace HW2.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
@@ -59,7 +59,7 @@ namespace HW2.Controllers
             }
             return View(homework);
         }
-
+        [Authorize(Roles = "管理员,作业管理")]
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -74,7 +74,7 @@ namespace HW2.Controllers
             }
             return View(homework);
         }
-
+        [Authorize(Roles = "管理员,作业管理")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Id,Course,WorkTitle,WorkContent,AnswerPath,ReleaseDate,EndDate")] Homework homework)
@@ -106,7 +106,58 @@ namespace HW2.Controllers
             }
             return View(homework);
         }
+        [Authorize(Roles = "管理员,答案管理")]
+        public async Task<IActionResult> EditAnswer(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var homework = await _context.Homeworks.FindAsync(id);
+            if (homework == null)
+            {
+                return NotFound();
+            }
+            return View(homework);
+        }
+        [Authorize(Roles = "管理员,答案管理")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAnswer(long id, [Bind("Id,AnswerPath")] Homework homework)
+        {
+            if (id != homework.Id)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //var old = await _context.Homeworks.FindAsync(id);
+                    //old.AnswerPath = homework.AnswerPath;
+
+                    //_context.Update(old);
+                    _context.Attach(homework);
+                    _context.Entry(homework).Property(x => x.AnswerPath).IsModified = true;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HomeworkExists(homework.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(homework);
+        }
+        [Authorize(Roles = "管理员,作业管理")]
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -123,7 +174,7 @@ namespace HW2.Controllers
 
             return View(homework);
         }
-
+        [Authorize(Roles = "管理员,作业管理")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)

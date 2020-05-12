@@ -12,6 +12,7 @@
     "rimraf": "^3.0.2"
   },
   "dependencies": {
-    "admin-lte": "^3.0.4"
+    "admin-lte": "^3.0.4",
+    "showdown": "^1.9.1"
   }
 }
